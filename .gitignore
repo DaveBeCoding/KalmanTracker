@@ -1,0 +1,55 @@
+# Ignore object files, static libraries, and dynamic libraries
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+
+# Ignore compiled binaries (executables)
+*.exe
+*.out
+*.app
+
+# Ignore debug and release directories
+[Dd]ebug/
+[Rr]elease/
+build/
+cmake-build-*/
+
+# Ignore CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Ignore auto-generated VS Code and JetBrains IDE files
+.vscode/
+.idea/
+
+# Ignore other common IDE or editor files
+*.swp
+*.swo
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.ncb
+*.user
+*.DS_Store
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore generated documentation
+doc/
+docs/
+
+# Ignore dependency management files (optional)
+vendor/
+
+not*
+notes/
+nots*
+
