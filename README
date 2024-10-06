@@ -1,0 +1,64 @@
+===========================================================================
+                            Kalman Filter Overview
+===========================================================================
+
+Goal:
+   Estimate the state of a moving object (position & velocity) over time 
+   given noisy measurements (e.g., from sensors).
+
+Math Concepts:
+---------------
+1. **State Vector (x)**:
+   Represents the state of the object at each time step.
+       x_k = [ position_k ]
+             [ velocity_k ]
+
+2. **State Prediction**:
+   Predict the next state using a state transition matrix (F):
+       x_{k|k-1} = F * x_{k-1|k-1} + B * u_k
+   where:
+     - F is the transition matrix, modeling how position & velocity evolve.
+     - B is a control input matrix (not used in simple tracking).
+
+   State Transition Example:
+       [ position_{k|k-1} ] = [ 1  1 ] * [ position_{k-1|k-1} ]
+       [ velocity_{k|k-1} ]   [ 0  1 ]   [ velocity_{k-1|k-1} ]
+
+3. **Covariance Matrix (P)**:
+   Measures uncertainty in state estimates:
+       P_{k|k-1} = F * P_{k-1|k-1} * F^T + Q
+   where:
+     - Q is the process noise covariance (uncertainty in model dynamics).
+
+4. **Measurement Update**:
+   Corrects the predicted state with a new sensor measurement (z_k):
+       K_k = P_{k|k-1} * H^T * (H * P_{k|k-1} * H^T + R)^{-1}
+       x_{k|k} = x_{k|k-1} + K_k * (z_k - H * x_{k|k-1})
+   where:
+     - K_k is the Kalman Gain: How much trust to place in measurement vs. model.
+     - H is the measurement matrix: Maps state to measurement space.
+     - R is the measurement noise covariance: Uncertainty in measurements.
+
+5. **Summation for Multiple Measurements**:
+   Combining multiple sensor readings to improve state estimates:
+       Σ_i [ x_k ] = x_{k|k-1} + K_k * Σ_i [ (z_k)_i - H * (x_{k|k-1}) ]
+     - Sum over sensor readings at each step to refine estimates.
+     - This helps balance between noisy measurements & model prediction.
+
+Example Walkthrough:
+---------------------
+   Time Step k = 1:
+     - Predict state (position & velocity) using F.
+     - Receive noisy position measurement (z_k).
+     - Update state estimate using Kalman Gain (K_k).
+
+   Repeat for each new measurement to improve accuracy over time.
+
+===========================================================================
+
+Intuitive Explanation for Non-Math Folks:
+-----------------------------------------
+Think of the Kalman Filter as a "smart averaging" system. It predicts where
+an object should be, then corrects its prediction based on noisy sensor
+readings, gradually honing in on a more accurate estimate over time.
+===========================================================================
